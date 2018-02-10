@@ -27,19 +27,26 @@ namespace aplimat_labs
         {
             InitializeComponent();
 
+            myVector = a - b;
+            Console.WriteLine(myVector.GetMagnitude());
+
             //while (true) Console.WriteLine(rng.Generate());
         }
 
         private CubeMesh myCube = new CubeMesh();
-        private Vector3 velocity = new Vector3(1, 0, 0);
+        private Vector3 velocity = new Vector3(1, 1, 0);
+        private float speed = 2.0f;
 
+        private Vector3 myVector = new Vector3();
+        private Vector3 a = new Vector3(3, 5, 0);
+        private Vector3 b = new Vector3(-7, -6, 0);
 
-        private Randomizer rng = new Randomizer(-1, 1);
+        //private Randomizer rng = new Randomizer(-1, 1);
 
         private List<CubeMesh> myCubes = new List<CubeMesh>();
 
-        private Randomizer random1 = new Randomizer(-20, 20); //POSITION
-        private Randomizer random2 = new Randomizer(0f, 1f); //RAND COLOR
+        //private Randomizer random1 = new Randomizer(-20, 20); //POSITION
+        //private Randomizer random2 = new Randomizer(0f, 1f); //RAND COLOR
 
 
 
@@ -53,36 +60,59 @@ namespace aplimat_labs
             // Move Left And Into The Screen
             gl.LoadIdentity();
             gl.Translate(0.0f, 0.0f, -40.0f);
+
+            //vector a
+            gl.Begin(OpenGL.GL_LINE_STRIP);
+            gl.Vertex(a.x, a.y);
+            gl.Vertex(b.x, b.y);
+            gl.End();
+
+            //vector a
+            gl.Color(1.0f, 0.0f, 0.0f);
+            gl.Begin(OpenGL.GL_LINE_STRIP);
+            gl.Vertex(0, 0);
+            gl.Vertex(a.x, a.y);
+            gl.End();
+
+            gl.Color(0.0f, 0.0f, 1.0f);
+            gl.Begin(OpenGL.GL_LINE_STRIP);      
+            gl.Vertex(b.x, b.y);
+            gl.Vertex(0, 0);
+            gl.End();
+
+
+            gl.DrawText(0, 0, 1, 1, 1, "Arial", 15, "myVector magnitude is:" + myVector);
+
             //gl.Translate(0.0f, 0.0f, -100.0f);
             //CubeMesh myCube = new CubeMesh();
-           //myCube.Position = new Vector3(Gaussian.Generate(0, 15), random1.GenerateInt(), 0);
+            //myCube.Position = new Vector3(Gaussian.Generate(0, 15), random1.GenerateInt(), 0);
 
-            myCubes.Add(myCube);
+            //myCubes.Add(myCube);
 
-            myCube.Draw(gl);
-            myCube.Position += velocity;
+            //myCube.Draw(gl);
+            //myCube.Position += velocity *speed;
 
-            if (myCube.Position.x >= 25.0f)
-            {
-                velocity.x = -1;
-            }
-            if (myCube.Position.x <= -25.0f)
-            {
-                velocity.x = 1;
-                velocity.y = 1;
-            }
-        
-            if (myCube.Position.y >= 15.0f)
-            {
-                velocity.y = -1;
-            }
-            if (myCube.Position.y <= -15.0f)
-            {
-                velocity.y = 1;
-               // velocity.x = 1;
-            }
+            //if (myCube.Position.x >= 25.0f)
+            //{
+            //    velocity.x = -1;
+            //}
+            //if (myCube.Position.x <= -25.0f)
+            //{
+            //    velocity.x = 1;
+            //    velocity.y = 1;
+            //}
 
-    
+            //if (myCube.Position.y >= 15.0f)
+            //{
+            //    velocity.y = -1;
+            //}
+            //if (myCube.Position.y <= -15.0f)
+            //{
+            //    velocity.y = 1;
+            //   // velocity.x = 1;
+            //}
+
+
 
         }
 
