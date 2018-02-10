@@ -34,20 +34,19 @@ namespace aplimat_labs
         }
 
         private CubeMesh myCube = new CubeMesh();
-        private Vector3 velocity = new Vector3(1, 1, 0);
-        private float speed = 2.0f;
+        private Vector3 velocity = new Vector3(1, 0, 0);
+        //private float speed = 2.0f;
+
+        private Randomizer rng = new Randomizer(-1, 1);
+
+        private List<CubeMesh> myCubes = new List<CubeMesh>();
+
+        private Randomizer random1 = new Randomizer(-20, 20); //POSITION
+        private Randomizer random2 = new Randomizer(0f, 1f); //RAND COLOR
 
         private Vector3 myVector = new Vector3();
         private Vector3 a = new Vector3(3, 5, 0);
         private Vector3 b = new Vector3(-7, -6, 0);
-
-        //private Randomizer rng = new Randomizer(-1, 1);
-
-        private List<CubeMesh> myCubes = new List<CubeMesh>();
-
-        //private Randomizer random1 = new Randomizer(-20, 20); //POSITION
-        //private Randomizer random2 = new Randomizer(0f, 1f); //RAND COLOR
-
 
 
         private void OpenGLControl_OpenGLDraw(object sender, SharpGL.SceneGraph.OpenGLEventArgs args)
@@ -60,59 +59,64 @@ namespace aplimat_labs
             // Move Left And Into The Screen
             gl.LoadIdentity();
             gl.Translate(0.0f, 0.0f, -40.0f);
-
-            //vector a
-            gl.Begin(OpenGL.GL_LINE_STRIP);
-            gl.Vertex(a.x, a.y);
-            gl.Vertex(b.x, b.y);
-            gl.End();
-
-            //vector a
-            gl.Color(1.0f, 0.0f, 0.0f);
-            gl.Begin(OpenGL.GL_LINE_STRIP);
-            gl.Vertex(0, 0);
-            gl.Vertex(a.x, a.y);
-            gl.End();
-
-            gl.Color(0.0f, 0.0f, 1.0f);
-            gl.Begin(OpenGL.GL_LINE_STRIP);      
-            gl.Vertex(b.x, b.y);
-            gl.Vertex(0, 0);
-            gl.End();
-
-
-            gl.DrawText(0, 0, 1, 1, 1, "Arial", 15, "myVector magnitude is:" + myVector);
-
             //gl.Translate(0.0f, 0.0f, -100.0f);
-            //CubeMesh myCube = new CubeMesh();
-            //myCube.Position = new Vector3(Gaussian.Generate(0, 15), random1.GenerateInt(), 0);
+
+            //VECTOR A
+            gl.LineWidth(5);
+            gl.Begin(OpenGL.GL_LINE_STRIP);
+            gl.Color(1.0f, 0.0f, 0.0f);
+            gl.Vertex(0, 0, 0);
+            gl.Vertex(b.x, b.y);
+            //gl.Vertex(a.x, a.y);
+            gl.End();
+
+            //VECTOR B
+            gl.Color(0.0f, 0.0f, 0.0f);
+            gl.Begin(OpenGL.GL_LINE_STRIP);
+            gl.Vertex(5, 7, 0);
+
+            gl.End();
+
+            if (Keyboard.IsKeyDown(Key.W))
+            {
+                b.x += 1;
+            }
+            if (Keyboard.IsKeyDown(Key.S))
+            {
+                b.x -= 1;
+            }
+            if (Keyboard.IsKeyDown(Key.D))
+            {
+                b.y += 1;
+            }
+            if (Keyboard.IsKeyDown(Key.A))
+            {
+                b.y -= 1;
+            }
+
+
+            //gl.Color(0.0f, 0.0f, 1.0f);
+            //gl.Begin(OpenGL.GL_LINE_STRIP);
+            //gl.Vertex(b.x, b.y);
+            //gl.Vertex(0, 0);
+            //gl.End();
+
+
+
+            gl.DrawText(0, 0, 1, 1, 1, "Arial", 15, "myVector magnitude is " + myVector.GetMagnitude());
+            //myCube.Position = new Vector3(Gaussian.Generate(0,15), random1.GenerateInt(), 0);
 
             //myCubes.Add(myCube);
 
             //myCube.Draw(gl);
-            //myCube.Position += velocity *speed;
-
-            //if (myCube.Position.x >= 25.0f)
-            //{
-            //    velocity.x = -1;
-            //}
-            //if (myCube.Position.x <= -25.0f)
-            //{
-            //    velocity.x = 1;
-            //    velocity.y = 1;
-            //}
-
-            //if (myCube.Position.y >= 15.0f)
-            //{
-            //    velocity.y = -1;
-            //}
-            //if (myCube.Position.y <= -15.0f)
-            //{
-            //    velocity.y = 1;
-            //   // velocity.x = 1;
-            //}
 
 
+            //foreach (var cube in myCubes)
+            //{
+            //    cube.Draw(gl);
+            //    gl.Color(random1.GenerateDouble(), random1.GenerateDouble(), random1.GenerateDouble());
+
+            //}
 
         }
 
@@ -141,7 +145,7 @@ namespace aplimat_labs
             gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_SPECULAR, light0specular);
             gl.Enable(OpenGL.GL_LIGHTING);
             gl.Enable(OpenGL.GL_LIGHT0);
-            gl.Color(1.0f, 0.0f, 0.0f);
+            //gl.Color(1.0f, 1.0f, 0.0f);
             gl.Disable(OpenGL.GL_LIGHTING);
             gl.Disable(OpenGL.GL_LIGHT0);
             gl.ShadeModel(OpenGL.GL_SMOOTH);
