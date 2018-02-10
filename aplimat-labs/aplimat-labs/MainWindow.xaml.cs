@@ -31,11 +31,17 @@ namespace aplimat_labs
         }
 
         private CubeMesh myCube = new CubeMesh();
-        private Randomizer rng = new Randomizer(-20, 20);
-        private Randomizer rng1 = new Randomizer(0f, 1f);
+        private Vector3 velocity = new Vector3(1, 0, 0);
+
+
+        private Randomizer rng = new Randomizer(-1, 1);
 
         private List<CubeMesh> myCubes = new List<CubeMesh>();
-        private List<CubeMesh> myCubes1 = new List<CubeMesh>();
+
+        private Randomizer random1 = new Randomizer(-20, 20); //POSITION
+        private Randomizer random2 = new Randomizer(0f, 1f); //RAND COLOR
+
+
 
         private void OpenGLControl_OpenGLDraw(object sender, SharpGL.SceneGraph.OpenGLEventArgs args)
         {
@@ -46,20 +52,41 @@ namespace aplimat_labs
 
             // Move Left And Into The Screen
             gl.LoadIdentity();
-            gl.Translate(0.0f, 0.0f, -100.0f);
+            gl.Translate(0.0f, 0.0f, -40.0f);
+            //gl.Translate(0.0f, 0.0f, -100.0f);
+            //CubeMesh myCube = new CubeMesh();
+           //myCube.Position = new Vector3(Gaussian.Generate(0, 15), random1.GenerateInt(), 0);
 
-            CubeMesh myCube = new CubeMesh();
-            myCube.Position = new Vector3(Gaussian.Generate(0, 15), rng.GenerateInt(), 0);
             myCubes.Add(myCube);
 
-            foreach (var cube in myCubes)
+            myCube.Draw(gl);
+            myCube.Position += velocity;
+
+            if (myCube.Position.x >= 25.0f)
             {
-                cube.Draw(gl);
-                gl.Color(rng1.GenerateDouble(), rng1.GenerateDouble(), rng1.GenerateDouble());
+                velocity.x = -1;
+            }
+            if (myCube.Position.x <= -25.0f)
+            {
+                velocity.x = 1;
+                velocity.y = 1;
+            }
+        
+            if (myCube.Position.y >= 15.0f)
+            {
+                velocity.y = -1;
+            }
+            if (myCube.Position.y <= -15.0f)
+            {
+                velocity.y = 1;
+               // velocity.x = 1;
             }
 
+    
 
         }
+
+
 
         private void OpenGLControl_OpenGLInitialized(object sender, SharpGL.SceneGraph.OpenGLEventArgs args)
         {
@@ -76,21 +103,17 @@ namespace aplimat_labs
             float[] lmodel_ambient = new float[] { 0.2f, 0.2f, 0.2f, 1.0f };
             gl.LightModel(OpenGL.GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
 
+
             gl.LightModel(OpenGL.GL_LIGHT_MODEL_AMBIENT, global_ambient);
             gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_POSITION, light0pos);
             gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_AMBIENT, light0ambient);
             gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_DIFFUSE, light0diffuse);
             gl.Light(OpenGL.GL_LIGHT0, OpenGL.GL_SPECULAR, light0specular);
-
             gl.Enable(OpenGL.GL_LIGHTING);
             gl.Enable(OpenGL.GL_LIGHT0);
-
-            //gl.Color(rng1.GenerateInt(), rng1.GenerateInt(), rng1.GenerateInt());
-
-
+            gl.Color(1.0f, 0.0f, 0.0f);
             gl.Disable(OpenGL.GL_LIGHTING);
             gl.Disable(OpenGL.GL_LIGHT0);
-
             gl.ShadeModel(OpenGL.GL_SMOOTH);
         }
     }
